@@ -1,4 +1,4 @@
-﻿function startApp() {
+function startApp() {
 // הגדרת ערך שדות הקלט והתצוגה
     const projectNameInput = document.getElementById("projectName"); // שדה הקלט של המשתמש
     const screenProjectTitle = document.getElementById("screenProjectTitle"); // התצוגה בפועל
@@ -33,66 +33,67 @@ function toggleFeature(checkbox, element) {
     }
 }
 // פונקציה לבדיקת תקינות הטופס והפעלת הכפתור
-    function checkFormValidity() {
-        // בדיקה אם אחד מ-4 כפתורי הרדיו נבחר
-        const isDeviceSelected = document.getElementById("compCourse").checked ||
-            document.getElementById("phoneCourse").checked ;
+function checkFormValidity() {
+    // בדיקה אם אחד מ-4 כפתורי הרדיו נבחר
+    const isDeviceSelected = document.getElementById("compCourse").checked ||
+        document.getElementById("phoneCourse").checked ;
 
-        // בדיקה שאורך שם הפרויקט גדול מ-0 (אחרי ניקוי רווחים מיותרים)
-        const isNameFilled = projectNameInput.value.trim().length > 0;
+    // בדיקה שאורך שם הפרויקט גדול מ-0 (אחרי ניקוי רווחים מיותרים)
+    const isNameFilled = projectNameInput.value.trim().length > 0;
 
-        if (isDeviceSelected && isNameFilled) {
-            btnSubmit.disabled = false;
-            btnSubmit.classList.remove("notActive");
-            statusMsg.textContent = "הטופס מוכן! אפשר לבנות את התוצר.";
-        } else {
-            btnSubmit.disabled = true;
-            btnSubmit.classList.add("notActive");
-            statusMsg.textContent = "יש למלא שם ולבחור סוג תוצר כדי להמשיך.";
-        }
+    if (isDeviceSelected && isNameFilled) {
+        btnSubmit.disabled = false;
+        btnSubmit.classList.remove("notActive");
+        statusMsg.textContent = "הטופס מוכן! אפשר לבנות את התוצר.";
+    } else {
+        btnSubmit.disabled = true;
+        btnSubmit.classList.add("notActive");
+        statusMsg.textContent = "יש למלא שם ולבחור סוג תוצר כדי להמשיך.";
     }
+}
     
 // עדכון טקסט השם ובדיקת אורך בזמן אמת
-    projectNameInput.addEventListener("input", function () {
-        if (this.value.length > 14) {
-            alert("שגיאה: מותר להקליד עד 14 תווים בלבד!");
-            this.value = this.value.substring(0, 14);
-        }
-        screenProjectTitle.textContent = this.value;
-        checkFormValidity(); // בדיקת תקינות בזמן הקלדה
-    });
+projectNameInput.addEventListener("input", function () {
+    if (this.value.length > 14) {
+        alert("שגיאה: מותר להקליד עד 14 תווים בלבד!");
+        this.value = this.value.substring(0, 14);
+    }
+    screenProjectTitle.textContent = this.value;
+    checkFormValidity(); // בדיקת תקינות בזמן הקלדה
+});
 
 // // מעבר בלולאה מה נלחץ בכל רגע - ותנאי לתוצאה - אם מחשב נלחץ שיוסתר הטלפון וההפך
 // // הלולאה עוברת כפתור אחר כפתור בעזרת הקידום של i++, ומגדירה על כל כפתור רדיו בנפרד (devRadios[i]): "ברגע שהמשתמש יבחר בך ותשתנה הבחירה (change), הפעל את הפונקציה שמעדכנת ומחליפה את תמונת המסך בהתאם"
-    for (let i = 0; i < devRadios.length; i++) { // האופציה ההתחלתית- האופציה הראשונה, אם הבחירה נמצאת באופציה שקטנה ממספר המקומות במערך
-        devRadios[i].addEventListener("change", function () { // פניה לאיבר במערך במקום i - ומחכה עד שהוא ישתנה, ברגע שמשתנה מופעלת פונקציה עם פונקציית if
-            if (this.value === "comp") { // אם נבחר מחשב - תהפוך את התמונה של המחשב לshow ואת הטלפון ל- hide ותגיד שנבחר מחשב
-                compBox.classList.remove("hide");
-                compBox.classList.add("show");
-                phoneBox.classList.remove("show");
-                phoneBox.classList.add("hide");
-                boxSimulatorView.classList.remove("isPhone");
-                deviceLabel.innerHTML = "נבחר מסך מחשב";
-            } else if (this.value === "phone") { // אם נבחר מחשב - תהפוך את התמונה של הטלפון לshow ואת המחשב ל- hide ותגיד שנבחר טלפון
-                phoneBox.classList.remove("hide");
-                phoneBox.classList.add("show");
-                compBox.classList.remove("show");
-                compBox.classList.add("hide");
-                boxSimulatorView.classList.add("isPhone");
-                deviceLabel.innerHTML = "נבחר מסך טלפון";
-            }
-        });
-    }
+for (let i = 0; i < devRadios.length; i++) { // האופציה ההתחלתית- האופציה הראשונה, אם הבחירה נמצאת באופציה שקטנה ממספר המקומות במערך
+    devRadios[i].addEventListener("change", function () { // פניה לאיבר במערך במקום i - ומחכה עד שהוא ישתנה, ברגע שמשתנה מופעלת פונקציה עם פונקציית if
+        if (this.value === "comp") { // אם נבחר מחשב - תהפוך את התמונה של המחשב לshow ואת הטלפון ל- hide ותגיד שנבחר מחשב
+            compBox.classList.remove("hide");
+            compBox.classList.add("show");
+            phoneBox.classList.remove("show");
+            phoneBox.classList.add("hide");
+            boxSimulatorView.classList.remove("isPhone");
+            deviceLabel.innerHTML = "נבחר מסך מחשב";
+        } else if (this.value === "phone") { // אם נבחר מחשב - תהפוך את התמונה של הטלפון לshow ואת המחשב ל- hide ותגיד שנבחר טלפון
+            phoneBox.classList.remove("hide");
+            phoneBox.classList.add("show");
+            compBox.classList.remove("show");
+            compBox.classList.add("hide");
+            boxSimulatorView.classList.add("isPhone");
+            deviceLabel.innerHTML = "נבחר מסך טלפון";
+        }
+        checkFormValidity();
+    });
+}
 
 // בדיקה (האזנה) לתיבות הסימון של התוספות
-    chkVideo.addEventListener("change", function () {toggleFeature(chkVideo, featVideo);
-    });
-    chkQuiz.addEventListener("change", function () {toggleFeature(chkQuiz, featQuiz);
-    });
-    chkAnimation.addEventListener("change", function () {toggleFeature(chkAnimation, featAnim);
-    });
-    chkAccess.addEventListener("change", function () {toggleFeature(chkAccess, featAccess);
-    });
+chkVideo.addEventListener("change", function () {toggleFeature(chkVideo, featVideo);
+});
+chkQuiz.addEventListener("change", function () {toggleFeature(chkQuiz, featQuiz);
+});
+chkAnimation.addEventListener("change", function () {toggleFeature(chkAnimation, featAnim);
+});
+chkAccess.addEventListener("change", function () {toggleFeature(chkAccess, featAccess);
+});
 }
 
 const popup = document.getElementById("message");
