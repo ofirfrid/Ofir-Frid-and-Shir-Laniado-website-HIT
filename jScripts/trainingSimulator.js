@@ -1,142 +1,745 @@
-function startApp() {
-// הגדרת ערך שדות הקלט והתצוגה
-    const projectNameInput = document.getElementById("projectName"); // שדה הקלט של המשתמש
-    const screenProjectTitle = document.getElementById("screenProjectTitle"); // התצוגה בפועל
-    const devRadios = document.querySelectorAll('input[name="devType"]'); // שמירת כל ההערכים של הרדיו והגדרה שלהם כמערך, קליטה אם רוצה מחשב או טלפון
-    const compBox = document.getElementById("computerScreenBox");
-    const phoneBox = document.getElementById("phoneScreenBox");
-    const deviceLabel = document.getElementById("deviceLabel"); // יהיה לשינוי של הטקסט של - לא נבחר מוצר
-    const boxSimulatorView = document.querySelector(".boxSimulatorView");
+/* ------------------------------------------------ */
+/* הגדרות לכל העמודים */
+/* ------------------------------------------------ */
 
-// אלמנטים לכפתור ולסטטוס
-    const btnSubmit = document.getElementById("btnSubmit");
-    const statusMsg = document.getElementById("status");
+@import url('https://fonts.googleapis.com/css2?family=Assistant:wght@400;600;700&display=swap');
+/* ייבוא גופן Assistant לשימוש בכל האתר */
 
-// הגדרת תיבות הסימון
-    const chkVideo = document.getElementById("video");
-    const chkQuiz = document.getElementById("quiz");
-    const chkAnimation = document.getElementById("animation");
-    const chkAccess = document.getElementById("access");
-
-// הגדרת תגיות התמונות
-    const featVideo = document.getElementById("featureVideo");
-    const featQuiz = document.getElementById("featureQuiz");
-    const featAnim = document.getElementById("featureAnimation");
-    const featAccess = document.getElementById("featureAccess");
-
-// פונקציה להדגשה והחזרה לשקיפות חלקית בעת שינוי סימון
-function toggleFeature(checkbox, element) {
-    if (checkbox.checked) {
-        element.classList.add("active"); // הדגשת התמונה
-    } else {
-        element.classList.remove("active"); // החזרה למצב שקיפות חלקית
-    }
-}
-// פונקציה לבדיקת תקינות הטופס והפעלת הכפתור
-function checkFormValidity() {
-    // בדיקה אם אחד מ-4 כפתורי הרדיו נבחר
-    const isDeviceSelected = document.getElementById("compCourse").checked ||
-        document.getElementById("phoneCourse").checked ;
-
-    // בדיקה שאורך שם הפרויקט גדול מ-0 (אחרי ניקוי רווחים מיותרים)
-    const isNameFilled = projectNameInput.value.trim().length > 0;
-
-    if (isDeviceSelected && isNameFilled) {
-        btnSubmit.disabled = false;
-        btnSubmit.classList.remove("notActive");
-        statusMsg.textContent = "הטופס מוכן! אפשר לבנות את התוצר.";
-    } else {
-        btnSubmit.disabled = true;
-        btnSubmit.classList.add("notActive");
-        statusMsg.textContent = "יש למלא שם ולבחור סוג תוצר כדי להמשיך.";
-    }
-}
-    
-// עדכון טקסט השם ובדיקת אורך בזמן אמת
-projectNameInput.addEventListener("input", function () {
-    if (this.value.length > 14) {
-        alert("שגיאה: מותר להקליד עד 14 תווים בלבד!");
-        this.value = this.value.substring(0, 14);
-    }
-    screenProjectTitle.textContent = this.value;
-    checkFormValidity(); // בדיקת תקינות בזמן הקלדה
-});
-
-// // מעבר בלולאה מה נלחץ בכל רגע - ותנאי לתוצאה - אם מחשב נלחץ שיוסתר הטלפון וההפך
-// // הלולאה עוברת כפתור אחר כפתור בעזרת הקידום של i++, ומגדירה על כל כפתור רדיו בנפרד (devRadios[i]): "ברגע שהמשתמש יבחר בך ותשתנה הבחירה (change), הפעל את הפונקציה שמעדכנת ומחליפה את תמונת המסך בהתאם"
-for (let i = 0; i < devRadios.length; i++) { // האופציה ההתחלתית- האופציה הראשונה, אם הבחירה נמצאת באופציה שקטנה ממספר המקומות במערך
-    devRadios[i].addEventListener("change", function () { // פניה לאיבר במערך במקום i - ומחכה עד שהוא ישתנה, ברגע שמשתנה מופעלת פונקציה עם פונקציית if
-        if (this.value === "comp") { // אם נבחר מחשב - תהפוך את התמונה של המחשב לshow ואת הטלפון ל- hide ותגיד שנבחר מחשב
-            compBox.classList.remove("hide");
-            compBox.classList.add("show");
-            phoneBox.classList.remove("show");
-            phoneBox.classList.add("hide");
-            boxSimulatorView.classList.remove("isPhone");
-            deviceLabel.innerHTML = "נבחר מסך מחשב";
-        } else if (this.value === "phone") { // אם נבחר מחשב - תהפוך את התמונה של הטלפון לshow ואת המחשב ל- hide ותגיד שנבחר טלפון
-            phoneBox.classList.remove("hide");
-            phoneBox.classList.add("show");
-            compBox.classList.remove("show");
-            compBox.classList.add("hide");
-            boxSimulatorView.classList.add("isPhone");
-            deviceLabel.innerHTML = "נבחר מסך טלפון";
-        }
-        checkFormValidity();
-    });
+/* הגדרות לכותרות */
+h1, h2, h3 {
+    color: #1b897f;
 }
 
-// בדיקה (האזנה) לתיבות הסימון של התוספות
-chkVideo.addEventListener("change", function () {toggleFeature(chkVideo, featVideo);
-});
-chkQuiz.addEventListener("change", function () {toggleFeature(chkQuiz, featQuiz);
-});
-chkAnimation.addEventListener("change", function () {toggleFeature(chkAnimation, featAnim);
-});
-chkAccess.addEventListener("change", function () {toggleFeature(chkAccess, featAccess);
-});
+h1 {
+    font-size: 60px;
+    margin-bottom: 15px;
 }
 
-const popup = document.getElementById("message");
-function openPopup() { // פונקציה לפתיחת החלונית
-    const projectName = document.getElementById("projectName").value;
-    let selectedDev = "לא נבחר";
-    if (document.getElementById("compCourse").checked) {
-        selectedDev = "לומדה למחשב";
-    } else if (document.getElementById("phoneCourse").checked) {
-        selectedDev = "לומדה לטלפון";
-
-    }
-
-// איסוף התוספות שסומנו
-    let featuresList = [];
-    if (document.getElementById("video").checked) {
-        featuresList.push("סרטון");
-    }
-    if (document.getElementById("quiz").checked) {
-        featuresList.push("שאלון אינטראקטיבי");
-    }
-    if (document.getElementById("animation").checked) {
-        featuresList.push("אנימציה");
-    }
-    if (document.getElementById("access").checked) {
-        featuresList.push("רכיבי נגישות");
-    }
-
-// בדיקה האם סומנו תוספות או לא
-    let featuresText = "ללא תוספות"; // הברירת מחדל זה שאין תוספות
-    if (featuresList.length > 0) { // אבל אם בסעיף הקודם משהו נבחר (זה מעל 0) אז-
-        featuresText = featuresList.join(", "); // תשנה את featuresList לחיבור של כל מה שנבחר - ותפריד ביניהם עם ,
-    }
-
-// בניית המשפט והזרקתו לפסקה שבתוך החלונית
-    const summaryElement = document.getElementById("summary");
-    summaryElement.innerHTML = "התוצר שנבחר הוא " + selectedDev + ", בשם " + projectName + ", והוא מכיל: " + featuresText + ".";
-    popup.classList.remove("hidden"); // מוחק את ההסתרה
-    popup.style.display = "block"; // מציג את החלונית על המסך
+h2 {
+    font-size: 24px;
+    margin-bottom: 12px;
 }
 
-// פונקציה לסגירת החלונית
-function closePopup() {
-    popup.classList.add("hidden"); // מחזיר את ההסתרה
-    popup.style.display = "none"; // מעלים אותה
+h3 {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+/* הגדרות לפסקה p */
+p {
+    font-size: 16px;                 /* גודל הגופן של הפסקה */
+    line-height: 1.6;                /* מרווח בין השורות לקריאות נוחה */
+}
+
+body {
+    background-color: #f0f0f0;           /* צבע רקע עדין לכל העמוד */
+    font-family: 'Assistant', sans-serif; /* קביעת הגופן */
+    text-align: right;                   /* יישור הטקסט לימין */
+    margin: 0;
+    padding: 0;
+}
+
+/* ------------------------------------------------ */
+/* סרגל ניווט עליון */
+/* ------------------------------------------------ */
+
+/* עיצוב הלוגו בתוך התפריט */
+.navLogo {
+    display: inline-block;         /* מאפשר ללוגו להופיע בשורה עם אלמנטים נוספים */
+    vertical-align: middle;        /* יישור אמצע אנכי של הלוגו */
+    margin-left: 150px;            /* רווח בין הלוגו לפריט הראשון ברשימה */
+}
+
+.navLogo img {
+    height: 60px;                 /* קביעת גובה הלוגו */
+    width: auto;                  /* שמירה על פרופורציות הרוחב */
+}
+
+/* הצגת רשימת הניווט בשורה לצד הלוגו */
+#mainNav ul {
+    display: inline-block;        /* מאפשר לרשימה לשבת בשורה לצד הלוגו */
+    list-style: none;             /* הסרת הנקודות מרשימת הניווט */
+    margin: 0;                    /* ביטול המרווח החיצוני של הרשימה */
+    padding: 25px;                /* יצירת רווח פנימי סביב הרשימה */
+}
+
+/*סידור הפריטים בשורה אחת ורווח ביניהם*/
+#mainNav li {
+    display: inline-block;              /* הצגת הפריטים בשורה אחת */
+    margin-left: 20px;                  /* רווח בין כפתור לכפתור */
+}
+
+/* סרגל ניווט עליון מלא */
+#siteHeader {
+    border-bottom: 1px solid #ffffff;    /* יצירת קו לבן בתחתית סרגל הניווט */
+    padding-top: 25px;                   /* ריפוד מלמעלה בלבד */
+    padding-bottom: 0;                  /* מבטל את הפס האפור שמתחת ל-breadCrumbs */
+}
+
+/* עיצוב החלק העליון (צהוב) */
+.pageIntro {
+    margin: 0;
+    background-color: #fbf3a3;
+    text-align: center;
+    padding: 25px;
+}
+
+/* רשימת הניווט - טקסט  */
+#mainNav a {
+    margin: 0;                          /* ביטול מרווח חיצוני */
+    text-decoration: none;              /* מוחק את הקו התחתון מהקישור */
+    color: #4a5568;                     /* משנה את צבע הטקסט */
+    font-weight: bold;
+    padding: 0 5px;                  /* שמירת המקום מראש כדי למנוע קפיצה */
+}
+
+/*ברגע שבHOVER מעל הטקסט - שישנה צבע*/
+#mainNav li a:hover, .box a:hover {
+    background-color: #fbf3a3;
+}
+
+/* סרגל פירורי הלחם הלבן שמתחיל רק מתחת למרווח האפור */
+.breadCrumbs {
+    margin: 0;                       /* ביטול מרווח חיצוני */
+    background-color: #ffffff;       /* קביעת רקע לבן */
+    padding: 12px 25px;              /* יצירת רווח פנימי למעלה/למטה ולצדדים */
+}
+
+
+/* ------------------------------------------------ */
+/* סרגל ניווט תחתון */
+/* ------------------------------------------------ */
+
+/*סרגל ניווט תחתון מלא  */
+#siteFooter {
+    background-color: #fbcd00;           /* הגוון של השורה */
+    padding: 20px 25px;
+    text-align: center;                  /* מרכוז כל תוכן הפוטר במסך */
+}
+
+/* צביעת טקסט התיאור בלבן */
+.colAbout p {
+    color: #ffffff;
+}
+
+/* מחיקת הנקודות ואיפוס הרשימות בפוטר */
+#siteFooter ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+/* פנייה לכל הקישורים שנמצאים בתוך הפוטר */
+#siteFooter a {
+    text-decoration: none; /* מבטל את הקו התחתון */
+    color: #ffffff;        /* צבע קישור לבן */
+    font-weight: normal;
+}
+
+/* ברגע שבHOVER מעל קישורי הפוטר - שישנה צבע */
+#siteFooter a:hover {
+    color: #1b897f;
+    background-color: #fbf3a3;           /* מוסיף רקע צהוב בהיר */
+    font-weight: bold;
+}
+
+/* מכולת הפוטר - מוגבלת לרוחב קבוע וממורכזת באמצע המסך */
+.footerContent {
+    width: 900px;
+    margin: 0 auto;
+}
+
+/* כל עמודה מקבלת ציפה לימין ורוחב של שליש */
+.footerCol {
+    display: inline-block;
+    width: 290px;
+    text-align: right; /* שומר על יישור הטקסט לימין בתוך העמודות */
+    vertical-align: top; /* מוודא שכולן מתחילות מאותו קו עליון */
+}
+/* איפוס מרווחים כדי שהתוכן הפנימי יתחיל בול מאותו גובה */
+.footerCol p,
+.footerCol ul {
+    margin-top: 0;}
+
+
+
+/* ------------------------------------------------ */
+/* כלים דיגיטליים */
+/* ------------------------------------------------ */
+
+.digitalToolsContent {
+    width: 1000px;
+    margin: 40px auto;
+    text-align: center;
+}
+
+.toolBox {
+    width: 220px;
+    min-height: 250px;
+    display: inline-block;
+    background-color: #ffffff;
+    margin: 10px;
+    padding: 25px;
+    text-align: center;
+    border: 1px solid #d9d9d9;
+}
+
+.toolBox img {
+    width: 80px;
+    height: 80px;
+    display: block;
+    margin: 0 auto 15px;
+}
+
+.toolBox a {
+    display: inline-block;
+    background-color: #1b897f;
+    color: #ffffff;
+    text-decoration: none;
+    padding: 12px 20px;
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+.toolBox a:hover,.submitButton:hover {
+    background-color: #fbcd00;
+    color: #1b897f;
+}
+
+/* ------------------------------------------------ */
+/* אודות */
+/* ------------------------------------------------ */
+
+.box {
+    width: 900px;
+    margin: 40px auto;
+}
+
+.box > section , .boxAskSimulator  , .boxSimulatorView {
+    background-color: #ffffff;
+    padding: 25px;
+    margin-bottom: 40px;
+    border: 1px solid #d9d9d9;
+}
+
+.box ul {
+    padding-right: 25px;
+}
+
+.box li {
+    margin-bottom: 15px;
+}
+
+.box a {
+    color: #1b897f;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.studentCard img {
+    width: 130px;
+    height: 130px;
+}
+
+.studentCard {
+    width: 180px;
+    display: inline-block;
+    text-align: center;
+    margin: 0 20px;
+}
+
+.studentCard p {
+    font-weight: bold;
+}
+
+/* ------------------------------------------------ */
+/* צור קשר */
+/* ------------------------------------------------ */
+
+.contactForm {
+    background-color: #ffffff;
+    padding: 25px;
+}
+
+.formField {
+    margin-bottom: 15px;
+}
+
+.formField label, .contactForm legend {
+    color: #4a5568;
+    font-weight: bold;
+}
+
+.formField input[type="text"], .formField input[type="email"], .formField select, .formField textarea {
+    width: 100%;
+    padding: 12px;
+    margin-top: 8px;
+    border: 1px solid #4a5568;
+    font-family: 'Assistant', sans-serif;
+    box-sizing: border-box; /* שומר שהרוחב של 100% לא יחרוג בגלל ה-padding */
+}
+
+.formField textarea {
+    height: 130px;
+}
+
+.formField fieldset {
+    border: none;
+    padding: 0;
+}
+
+.formField fieldset label {
+    display: inline-block;
+    margin-left: 25px;
+    margin-top: 10px;
+    font-weight: normal;
+}
+
+.requiredMark {
+    color: #fbcd00;
+    font-weight: bold;
+}
+
+.submitButton {
+    background-color: #1b897f;
+    color: #ffffff;
+    border: none;
+    padding: 10px 25px;
+    font-family: 'Assistant', sans-serif;
+    font-weight: bold;
+}
+
+/* ------------------------------------------------ */
+/* דף צור קשר */
+/* ------------------------------------------------ */
+.heroSection {
+    width: 1300px;
+    margin: 50px auto 60px auto;   /* מרכוז מכולת דף הבית במסך וריווח למעלה ולמטה */
+    text-align: center;           /* ממרכז את שני הגושים (טקסט ותמונה) באמצע השורה */
+}
+
+/* עמודת התוכן הצפה לימין */
+.heroContent {
+    display: inline-block;        /* מוצג בשורה לצד התמונה */
+    vertical-align: middle;       /* מיישר את הטקסט בדיוק באמצע הגובה מול התמונה */
+    width: 480px;
+    margin-left: 30px;            /* רווח עדין ומדויק בין הטקסט לתמונה */
+}
+
+/* כותרת עליונה */
+.heroTitle {
+    font-size: 60px;
+    color: #1b897f;
+    margin-top: 0;
+    margin-bottom: 0;
+    line-height: 1.1;
+    font-weight: bold;
+}
+
+/* כותרת משנית */
+.heroSubtitle {
+    font-size: 80px;
+    color: #fbcd00;
+    margin: 0 0 25px 0;
+    line-height: 1.15;
+    font-weight: bold;
+}
+/* פסקת ההסבר */
+.heroDescription {
+    color: #4a5568;
+    margin: 0 0 35px 0;
+    max-width: 480px;
+}
+
+/*עיצוב כפתורים*/
+.btnPrimary {
+    display: inline-block;
+    text-decoration: none;
+    padding: 12px 25px;
+    font-weight: bold;
+    background-color: #1b897f;
+    color: #ffffff;
+    margin-left: 15px;
+    font-family: 'Assistant', sans-serif; /* קביעת הגופן */
+}
+
+/*hover זהה לשניהם*/
+.btnPrimary:hover {
+    background-color: #fbcd00;
+    color: #1b897f;
+}
+
+/* עמודת התמונה הצפה לשמאל */
+.heroImage {
+    display: inline-block;
+    vertical-align: middle;
+    width: 750px;
+}
+
+.heroImage img {
+    width: 100%;     /*שהתמונה תיהיה בול בגודל שלה*/
+}
+
+/* -----------   סקשיין: מהו פיתוח הדרכה וכרטיסיות מידע ------------ */
+
+/* מכולת הסקשיין */
+.part {
+    padding: 12px 0 40px 0;
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+/* מכולת שלוש הכרטיסיות */
+.cardsContainer {
+    width: 1000px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+/* התאמת מחלקת box לתצוגת 3 קוביות בשורה */
+.introCard {
+    width: 250px;
+    display: inline-block;
+    vertical-align: top;
+    margin: 10px 10px;
+    padding: 12px 25px;
+    background-color: #ffffff;
+    border: 1px solid #d9d9d9;
+}
+
+/* פסקת המלל בתוך הכרטיסייה */
+.introCard p {
+    color: #4a5568;
+    line-height: 1.5;
+    margin-bottom: 15px;
+}
+
+/* מספרי השלבים (01, 02, 03) */
+.stepBadge {
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    font-weight: bold;
+    display: block;
+    background-color: #fbf3a3;
+    color: #fbcd00;
+}
+
+/* קישור בתחתית הכרטיסייה */
+.cardLink {
+    display: inline-block;
+    color: #1b897f;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.cardLink:hover {
+    color: #fbcd00;
+}
+
+/* ---------------- סקשיין: חמישה צעדים להדרכה מדויקת ----------------- */
+
+/* כרטיסיית שלב */
+.stepCard {
+    width: 160px;
+    height: 70px;
+    background-color: #ffffff;
+    border: 1px solid #d9d9d9;
+    display: inline-block;
+    vertical-align: middle;
+    padding: 12px;
+    text-align: center;
+}
+
+/* מספר השלב (01, 02...) */
+.stepNum {
+    display: block;
+    color: #1b897f;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+/* טקסט השלב */
+.stepText {
+    color: #4a5568;
+    font-weight: bold;
+    line-height: 1.35;
+    margin: 0;
+}
+
+/* חץ חיבור בין הכרטיסיות */
+.stepArrow {
+    display: inline-block;
+    vertical-align: middle;
+    color: #1b897f;              /* גוון החץ */
+    font-weight: bold;
+    margin: 0 4px;
+}
+
+/* ------------------- סקשיין: טיפ לפיתוח הדרכה ----------- */
+
+/* מכולת הסקשיין החיצונית */
+.tipSection {
+    width: 500px;
+    margin: 10px auto 40px auto;
+    text-align: center;
+}
+
+/* הבאנר הכהה */
+.tipBanner {
+    background-color: #1b897f;
+    padding: 25px 45px;
+    text-align: right;            /* יישור התוכן בתוך הבאנר לימין */
+}
+
+.tipContent,
+.workerImage {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+/* אזור הטקסט (מימין) */
+.tipContent {
+    width: 500px;
+}
+
+/* אזור התמונה (משמאל) */
+.workerImage {
+    width: 250px;
+}
+
+/* כותרת הטיפ */
+.tipTitle {
+    color: #fbcd00;
+    font-size: 28px;
+    font-weight: bold;
+    margin: 0 0 10px 0;
+}
+
+/* מלל הטיפ */
+.tipText {
+    color: #ffffff;
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* התאמת התמונה לתוך השטח שלה */
+.workerImage img {
+    width: 100%;
+    height: auto;
+}
+
+/* ------------------------------------------------ */
+/* סימולטור */
+/* ------------------------------------------------ */
+.simulator {
+    margin: 40px auto;
+    width: 1200px;
+}
+
+/* שתי התיבות של הסימולטור */
+.boxAskSimulator,
+.boxSimulatorView {
+    display: inline-block;     /* מאפשר להן לעמוד אחת ליד השנייה בשורה */
+    vertical-align: top;       /* מצמיד את שתיהן לאותו קו גובה עליון */
+    height: 700px;
+    margin: 0 10px;            /* רווח עדין בין שתי התיבות */
+    padding: 25px;             /* ריפוד פנימי */
+    box-sizing: border-box;    /* מבטיח שה-padding לא ירחיב את התיבה */
+}
+
+/* תיבת הבחירות */
+.boxAskSimulator {
+    width: 350px;
+    text-align: right;
+}
+
+/* תיבת התצוגה */
+.boxSimulatorView {
+    width: 750px;
+    text-align: center;
+    position: relative; /* השורה שמעגנת את הטלפון והמחשב בפנים */
+}
+
+/* מראה הכפתור כשהוא לא לחיץ */
+.btnPrimary:disabled,
+.btnPrimary.notActive {
+    background-color: #cbd5e1;
+    border-color: #cbd5e1;
+    color: #ffffff;
+    cursor: not-allowed;
+}
+
+.computerScreen,  /* מסכים מוסתרים בהתחלה */
+.phoneScreen {
+    display: none;    /* מסתיר ומעלים את האלמנטים לחלוטין מתצוגת הדף */
+}
+
+.computerScreen {
+    position: absolute;
+    top: 80px;   /* מוריד את המחשב למטה, מתחת לכותרות ולטקסט */
+    right: 35px;  /* מזיז את המחשב מהקצה הימני כך שיישב בדיוק באמצע התיבה */
+    width: 680px; /* הרוחב של המחשב */
+}
+
+.computerScreen img {
+    width: 100%;
+    height: auto;
+}
+
+.phoneScreen {
+    position: absolute;
+    top: 80px;        /* מוריד את הטלפון מתחת לכיתוב "תצוגה מקדימה" */
+    right: 240px;     /* ממקם את הטלפון בדיוק באמצע: (750 - 270) / 2 */
+    width: 270px;
+}
+
+.phoneScreen img {
+    width: 100%;      /* פורס את התמונה על כל רוחב הדיב של הטלפון */
+    height: auto;
+}
+
+
+/* --------------שם הפרויקט בתוך המסך----------------- */
+.screenTitleText {
+    position: absolute;     /*הגדרת מיקום ביחס לדף*/
+    z-index: 10;            /*קובע שזה יקבל קדימות (שכבות)*/
+    top: 140px;
+    color: #1b897f;
+    font-size: 30px;
+    font-weight: bold;
+    text-align: center;
+    right: 270px;
+    width: 210px;
+}
+
+/* ----------------אזור האייקונים-------------- */
+#featuresArea {
+    position: absolute;
+    z-index: 15;
+    top: 220px;              /* הרמה למעלה בתוך המסך הלבן */
+    width: 500px;             /* רוחב שמאפשר בדיוק את כל הפריטים בשורה (80*4 ועוד 10*5) */
+    right: 125px;             /* ממקם בדיוק באמצע המחשב: (750 - 370) / 2 */
+    margin: 0 auto;          /* מרכוז התיבה כולה בדיוק באמצע המחשב */
+    text-align: center;
+}
+
+/* כל פריט של תוספת */
+.featureItem {
+    display: inline-block;   /* עומדים בשורה אחד לצד השני */
+    vertical-align: top;
+    text-align: center;
+    margin: 0 10px;        /* רווח קל בין העמודות */
+    opacity: 0.35; /* שקיפות חלקית במצב התחלתי לפי ההנחיה */
+    transition: opacity 0.2s ease;
+    color: #4a5568;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+/* במצב פעיל/מסומן – שקיפות מלאה והדגשה */
+.featureItem.active {
+    opacity: 1; /* הדגשת התמונה בצבע מלא */
+}
+
+/* הקטנת תמונות האייקונים */
+.featureItem img {
+    display: block;
+    width: 100px;        /* במקום 90px - גודל מדויק שלא צועק */
+    height: 100px;
+}
+
+.featureItem span {
+    font-size: 13px;
+    color: #4a5568;
+    font-weight: bold;
+}
+/* התאמת גודל התמונות כשהתצוגה במצב טלפון */
+.boxSimulatorView.isPhone #featuresArea {
+    top: 200px;
+    width: 300px;
+    right: 225px;             /* מרכוז בתוך הטלפון: (750 - 300) / 2 */
+}
+
+.boxSimulatorView.isPhone .featureItem {
+    width: 100px;
+    margin: 20px 10px;           /*  רווח בין השורות והעמודות */
+}
+
+.boxSimulatorView.isPhone .featureItem img {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 1px auto; /* מצמיד את האייקון כמעט לגמרי לטקסט */}
+
+/* הסתרת רכיב */
+.hide {
+    display: none;
+}
+/* הצגת רכיב */
+.show {
+    display: block;
+}
+/* הודעות מתחת לטופס */  
+
+.status {
+    color: #4a5568;
+}
+
+/* חלון אישור */
+
+.message {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.45);
+    z-index: 1000;
+}
+
+.message.hidden {
+    display: none;
+}
+
+.messageBox {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    margin: auto;
+    width: 420px;
+    height: 120px;
+    padding: 30px;
+    background-color: #ffffff;
+    border: 1px solid #d9d9d9;
+    text-align: center;
+}
+
+/* כפתור סגירה */
+#closeMessage {
+    position: absolute;
+    top: 8px;
+    left: 12px;
+    background: none;
+    border: none;
+    font-size: 28px;
+    color: #4a5568;
+    cursor: pointer;
+}
+
+#closeMessage:hover {
+    color: #1b897f;
+}
+
+/* כותרת ההודעה */
+.messageBox h2 {
+    color: #1b897f;
+}
+
+/* טקסט הסיכום */
+#summary {
+    color: #4a5568;
+    line-height: 1.8;
 }
