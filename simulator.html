@@ -3,17 +3,17 @@
 <head>
     <meta charset="utf-8" />
     <!--תיאור הדף-->
-    <meta name="description" content="העקרונות והשלבים המרכזיים בפיתוח הדרכה מדויקת: ניתוח צרכים, תכנון מטרות, קהל יעד, בחירת פתרון והערכתו" />
+    <meta name="description" content="סימולטור אינטראקטיבי לאפיון והתאמת תוצרי הדרכה, בחירת מסכי יעד, רכיבי מדיה והדגמת תהליך הפיתוח בזמן אמת." />
     <!--    כותרת ראשית-->
-    <title> learnDesign | עקרונות פיתוח הדרכה</title>
-    <link rel="icon" type="images/png" href="images/flowerLogo.png">
-    <meta name="keywords" content="עקרונות פיתוח הדרכה, ניתוח הדרכה, תכנון, קהל יעד, מטרות הדרכה" />
+    <title> learnDesign | סימולטור אפיון הדרכה</title>
+    <link rel="icon" type="images/png" href="images/flowerLogo.png"/>
+    <meta name="keywords" content="סימולטור הדרכה, אפיון הדרכה, טופס אפיון, לומדה אינטראקטיבית, תכנון הדרכה, מיקרו למידה"/>    
     <meta name="author" content="Shir Laniado, Ofir Frid - Telem Faculty, HIT" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
     <link href="styles/myStyle.css" rel="stylesheet" />
 </head>
 
-<body>
+<body onload="startApp()">
 <!-- סרגל ניווט עליון -->
 <header id="siteHeader">
     <nav id="mainNav">
@@ -35,65 +35,130 @@
     <!-- סרגל פירורי לחם -->
     <div class="breadCrumbs">
         <a href="index.html">דף הבית</a>
-        <span> > עקרונות פיתוח הדרכה</span>
+        <span>> סימולטור פיתוח הדרכה</span>
     </div>
 </header>
 
 <main>
     <header class="pageIntro">
         <div class="bannerContent">
-            <h1>עקרונות פיתוח הדרכה</h1>
-            <h2>הדרכה טובה מתחילה בהבנת הלומד ומסתיימת ביכולת להשתמש בידע בפועל.</h2>
+            <h1>סימולטור אפיון הדרכה</h1>
+            <h2>בחרו סוג מסך ורכיבים וצפו בהדרכה נבנית מול עיניכם בזמן אמת.</h2>
         </div>
     </header>
+    <section class="simulator">
+        <section class="boxAskSimulator">
+        <h2>פרטי הפרויקט</h2>
+        <form id="projectForm">
+            
+            <h3>מה רוצים לפתח? <span class="requiredMark">*</span></h3>
+            <!-- כפתורי הרדיו עם תוספת value -->
+            <label for="compCourse">
+                <input type="radio" id="compCourse" name="devType" value="comp" required /> לומדה למחשב <br/>
+            </label>
+            <label for="phoneCourse">
+                <input type="radio" id="phoneCourse" name="devType" value="phone" /> לומדה לטלפון <br/>
+            </label>
+            <br/>
+            
+            <h3>שם הלומדה <span class="requiredMark">*</span></h3>
+            <label for="projectName">
+                <input type="text" id="projectName" placeholder="לדוגמה: הכשרה לעובדים חדשים" required /><br />
+            </label>
+            <br/>
+            <h3>כלים ותוספות</h3>
+            <label for="video">
+                <input type="checkbox" id="video" /> סרטון <br/>
+            </label>
+            <label for="quiz">
+                <input type="checkbox" id="quiz" /> שאלון אינטראקטיבי <br/>
+            </label>
+            <label for="animation">
+                <input type="checkbox" id="animation" /> אנימציה <br/>
+            </label>
+            <label for="access">
+                <input type="checkbox" id="access" /> רכיבי נגישות <br/>
+            </label>
+            <p class="requiredNote">
+                <span class="requiredMark">*</span> שדה חובה
+            </p>
+            <input type="button" id="btnSubmit" class="btnPrimary notActive" value="אישור ובניית תוצר" onclick="openPopup()" disabled />
+            <p id="status" class="status">יש למלא שם ולבחור סוג תוצר כדי להמשיך.</p>
+        </form>
+        </section>
+    <section class="boxSimulatorView">
+        <h2>תצוגה מקדימה</h2>
+        <span id="deviceLabel">לא נבחר תוצר, יש לבחור מצד ימין</span>
+        <!-- מסך מחשב -->
+        <div id="computerScreenBox" class="computerScreen">
+            <img src="images/computer.png" alt="מסך מחשב" title="מסך מחשב"/>
+        </div>
 
-    <section class="box">
-        <section>
-            <h3>עיקרון מנחה</h3>
-            <p>לא מתחילים מהשאלה "איזה תוכן יש לי?", אלא מהשאלה "מה הלומד צריך לדעת או לדעת לעשות?".</p>
-        </section>
-        <section>
-            <h3>מהו פיתוח הדרכה?</h3>
-            <p>פיתוח הדרכה הוא תהליך שיטתי של זיהוי צורך לימודי, הגדרת מטרות, תכנון פתרון למידה, פיתוחו והערכת האפקטיביות שלו.</p>
-            <h3>מי הוא קהל היעד?</h3>
-            <p>לפני שמפתחים תוכן חשוב להבין מי הלומדים, מה הידע הקודם שלהם ומה הם צריכים לעשות לאחר ההדרכה.</p>
-            <h3>למה מטרות למידה חשובות?</h3>
-            <p>מטרות ברורות מאפשרות לתכנן תוכן ופעילויות באופן ממוקד וגם לבחור דרך מתאימה לבדיקת ההישגים.</p>
-        </section>
-        <section>
-            <h3>איך בוחרים פתרון למידה?</h3>
-            <p>פתרון הלמידה נבחר בהתאם לקהל היעד, לסביבת העבודה ולאופי המיומנות הנדרשת – החל מלומדה עצמית, דרך סדנה מעשית ועד למידה משולבת דיגיטל.</p>
-            <h3>הערכת אפקטיביות</h3>
-            <p>הדרכה מוצלחת נמדדת בשינוי התנהגותי בשטח ובשיפור הביצועים של הלומדים, ולא רק במידת שביעות הרצון שלהם בסיום ההדרכה.</p>
+        <!-- מסך טלפון -->
+        <div id="phoneScreenBox" class="phoneScreen">
+            <img src="images/phone.png" alt="מסך טלפון" title="מסך טלפון"/>
+        </div>
+        
+            <!-- שם הפרויקט שמוקלד בתוך המסך -->
+            <div id="screenProjectTitle" class="screenTitleText"></div>
+            
+        <div id="featuresArea">
+            <div id="featureVideo" class="featureItem">
+                <img src="images/video.png" alt="סרטון" title="סרטון" />
+                <span>סרטון</span>
+            </div>
+            <div id="featureQuiz" class="featureItem">
+                <img src="images/quiz.png" alt="שאלון" title="שאלון" />
+                <span>שאלון</span>
+            </div>
+            <div id="featureAnimation" class="featureItem">
+                <img src="images/animation.png" alt="אנימציה" title="אנימציה"  />
+                <span>אנימציה</span>
+            </div>
+            <div id="featureAccess" class="featureItem">
+                <img src="images/accessibility.png" alt="רכיב נגישות" title="רכיב נגישות" />
+                <span>רכיב נגישות</span>
+            </div>
+        </div>
+        <div id="message" class="message hidden">
+            <div class="messageBox">
+                <input type="button" id="closeMessage" value="×" onclick="closePopup()" />
+                <h2>הפרויקט הוגדר בהצלחה ✓</h2>
+                <p id="summary"></p>
+            </div>
+        </div>
         </section>
     </section>
 </main>
-
 <!-- עיצוב סרגל פוטר -->
 <footer id="siteFooter">
-    <div class="footerCol colAbout">
-        <h2>פיתוח הדרכה</h2>
-        <p>מרכז ידע אישי לתכנון חוויות למידה ברורות, שימושיות ומותאמות לקהל היעד.</p>
-    </div>
+    <div class="footerContent">
 
-    <div class="footerCol colLinks">
-        <h2>תהליך העבודה</h2>
-        <ul>
-            <li><a href="simulator.html">סימולטור אפיון הדרכה</a></li>
-            <li><a href="principles.html">עקרונות פיתוח הדרכה</a></li>
-            <li><a href="digitalTools.html">כלים דיגיטליים</a></li>
-        </ul>
-    </div>
+        <div class="footerCol colAbout">
+            <h2>פיתוח הדרכה</h2>
+            <p>מרכז ידע אישי לתכנון חוויות למידה ברורות, שימושיות ומותאמות לקהל היעד.</p>
+        </div>
 
-    <div class="footerCol colLinks">
-        <h2>מידע</h2>
-        <ul>
-            <li><a href="index.html">דף הבית</a></li>
-            <li><a href="about.html">אודות</a></li>
-            <li><a href="contactUs.html">צור קשר</a></li>
-            <li><a href="siteMap.html">מפת האתר</a></li>
-        </ul>
+        <div class="footerCol colLinks">
+            <h2>תהליך העבודה</h2>
+            <ul>
+                <li><a href="simulator.html">סימולטור אפיון הדרכה</a></li>
+                <li><a href="principles.html">עקרונות פיתוח הדרכה</a></li>
+                <li><a href="digitalTools.html">כלים דיגיטליים</a></li>
+            </ul>
+        </div>
+
+        <div class="footerCol colLinks">
+            <h2>מידע</h2>
+            <ul>
+                <li><a href="index.html">דף הבית</a></li>
+                <li><a href="about.html">אודות</a></li>
+                <li><a href="contactUs.html">צור קשר</a></li>
+                <li><a href="siteMap.html">מפת האתר</a></li>
+            </ul>
+        </div>
     </div>
 </footer>
+<script src="jScripts/trainingSimulator.js" type="text/javascript"></script>
 </body>
 </html>
